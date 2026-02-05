@@ -1,0 +1,48 @@
+[package]
+name = "human_pose_burn"
+version = "0.1.0"
+edition = "2024"
+
+[features]
+default = ["wgpu"]
+wgpu = ["burn/wgpu", "burn-wgpu"]
+cpu = ["burn/ndarray", "burn-ndarray"]
+cuda = ["burn/cuda", "burn-cuda"]
+
+[dependencies]
+# Copper framework (burn branch to avoid dependency conflicts)
+cu29 = { git = "https://github.com/TsaoLun/copper-rs.git", branch = "burn", features = ["log-level-debug", "textlogs"] }
+cu29-helpers = { git = "https://github.com/TsaoLun/copper-rs.git", branch = "burn" }
+cu-gstreamer = { git = "https://github.com/TsaoLun/copper-rs.git", branch = "burn", features = ["gst"] }
+cu-sensor-payloads = { git = "https://github.com/TsaoLun/copper-rs.git", branch = "burn" }
+cu-logmon = { git = "https://github.com/TsaoLun/copper-rs.git", branch = "burn" }
+cu-consolemon = { git = "https://github.com/TsaoLun/copper-rs.git", branch = "burn" }
+
+# Burn ML framework (version 0.20.1)
+burn = { version = "0.20.1", default-features = false, features = ["std"] }
+burn-wgpu = { version = "0.20.1", optional = true, default-features = false }
+burn-ndarray = { version = "0.20.1", optional = true }
+burn-cuda = { version = "0.20.1", optional = true }
+burn-store = { version = "0.20.1", features = ["safetensors"] }
+
+# Visualization
+rerun = { version = "0.29", default-features = false, features = [
+  "sdk",
+  "server",
+  "log",
+] }
+
+# Serialization
+bincode = { package = "cu-bincode", version = "2.0", features = ["derive", "alloc"] }
+serde = { version = "1.0", features = ["derive"] }
+
+# Model weights handling
+safetensors = "0.4"
+hf-hub = "0.4.3"
+
+# Error handling and utilities
+anyhow = "1.0"
+thiserror = "2.0"
+
+[build-dependencies]
+cu29-helpers = { git = "https://github.com/TsaoLun/copper-rs.git", branch = "burn" }

@@ -1,0 +1,33 @@
+# Rust
+/target/
+**/*.rs.bk
+*.pdb
+Cargo.lock
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+/logs/*.copper
+!/logs/.keep
+
+# Weights
+/weights/*.safetensors
+/weights/*.mpk
+/weights/*.onnx
+/weights/*.pt
+
+# Generated
+/generated/
+
+# Temporary
+*.tmp
+*.temp
