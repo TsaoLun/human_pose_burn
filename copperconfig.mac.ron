@@ -4,8 +4,8 @@
             id: "camera",
             type: "cu_gstreamer::CuDefaultGStreamer",
             config: {
-                "pipeline": "avfvideosrc device-index=0 ! video/x-raw, width=480, height=360, framerate=30000/1001 ! videoconvert ! video/x-raw, format=NV12 ! appsink name=copper max-buffers=1 drop=true sync=false",
-                "caps": "video/x-raw, format=NV12, width=480, height=360",
+                "pipeline": "avfvideosrc device-index=0 ! video/x-raw, width=640, height=480, framerate=30/1 ! videoconvert ! video/x-raw, format=NV12 ! appsink name=copper max-buffers=1 drop=true sync=false",
+                "caps": "video/x-raw, format=NV12, width=640, height=480",
                 "log_bus_messages": true,
                 "log_pad_events": true,
                 "log_src_pad_events": true,
@@ -16,8 +16,8 @@
             id: "gst_to_image",
             type: "tasks::GstToCuImage",
             config: {
-                "width": 480,
-                "height": 360,
+                "width": 640,
+                "height": 480,
                 "fourcc": "NV12",
             },
         ),
