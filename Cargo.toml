@@ -2,21 +2,42 @@
 name = "human_pose_burn"
 version = "0.1.0"
 edition = "2024"
+default-run = "human-pose-burn"
+
+[[bin]]
+name = "human-pose-burn"
+path = "src/main.rs"
+
+[[bin]]
+name = "human-pose-logreader"
+path = "src/logreader.rs"
+required-features = ["logreader"]
+
 
 [features]
 default = ["wgpu"]
 wgpu = ["burn/wgpu", "burn-wgpu"]
 cpu = ["burn/ndarray", "burn-ndarray"]
 cuda = ["burn/cuda", "burn-cuda"]
+logreader = ["dep:cu29-export", "dep:gstreamer"]
 
 [dependencies]
 # Copper framework (burn branch to avoid dependency conflicts)
-cu29 = { git = "https://github.com/TsaoLun/copper-rs.git", branch = "burn", features = ["log-level-debug", "textlogs"] }
+cu29 = { git = "https://github.com/TsaoLun/copper-rs.git", branch = "burn", features = [
+  "log-level-debug",
+  "textlogs",
+] }
 cu29-helpers = { git = "https://github.com/TsaoLun/copper-rs.git", branch = "burn" }
-cu-gstreamer = { git = "https://github.com/TsaoLun/copper-rs.git", branch = "burn", features = ["gst"] }
+cu-gstreamer = { git = "https://github.com/TsaoLun/copper-rs.git", branch = "burn", features = [
+  "gst",
+] }
 cu-sensor-payloads = { git = "https://github.com/TsaoLun/copper-rs.git", branch = "burn" }
 cu-logmon = { git = "https://github.com/TsaoLun/copper-rs.git", branch = "burn" }
 cu-consolemon = { git = "https://github.com/TsaoLun/copper-rs.git", branch = "burn" }
+cu29-export = { git = "https://github.com/TsaoLun/copper-rs.git", branch = "burn", optional = true, features = [
+  "python",
+  "mcap",
+] }
 
 # Burn ML framework (version 0.20.1)
 burn = { version = "0.20.1", default-features = false, features = ["std"] }
@@ -33,8 +54,12 @@ rerun = { version = "0.29", default-features = false, features = [
 ] }
 
 # Serialization
-bincode = { package = "cu-bincode", version = "2.0", features = ["derive", "alloc"] }
+bincode = { package = "cu-bincode", version = "2.0", features = [
+  "derive",
+  "alloc",
+] }
 serde = { version = "1.0", features = ["derive"] }
+gstreamer = { version = "0.24", optional = true, default-features = false }
 
 # Model weights handling
 safetensors = "0.4"

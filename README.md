@@ -166,3 +166,53 @@ fourcc: "NV12"
 
 - If you see no frames, check the pipeline configuration to ensure that `width`,
   `height`, and `format` match the supported parameters of your camera.
+
+## Log Analysis
+
+The application automatically logs structured data to `logs/human-pose.copper`.
+Use the logreader to analyze logs:
+
+### Extract text logs
+
+```bash
+cargo run --features logreader --bin human-pose-logreader -- \
+  logs/human-pose.copper \
+  extract-text-log \
+  target/debug/cu29_log_index
+```
+
+### Extract CopperLists (JSON format)
+
+```bash
+cargo run --features logreader --bin human-pose-logreader -- \
+  logs/human-pose.copper \
+  extract-copperlists
+```
+
+### Analyze task latency (log statistics)
+
+```bash
+# macOS
+cargo run --features logreader --bin human-pose-logreader -- \
+  logs/human-pose.copper \
+  log-stats --config copperconfig.mac.ron
+
+# Linux
+cargo run --features logreader --bin human-pose-logreader -- \
+  logs/human-pose.copper \
+  log-stats --config copperconfig.linux.ron
+```
+
+This generates `cu29_logstats.json` containing per-task latency statistics:
+
+- Minimum, maximum, and mean latencies
+- Standard deviation and jitter metrics
+- End-to-end latency analysis
+
+### Check log integrity
+
+```bash
+cargo run --features logreader --bin human-pose-logreader -- \
+  logs/human-pose.copper \
+  fsck
+```

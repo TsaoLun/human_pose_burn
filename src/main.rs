@@ -1,7 +1,7 @@
+mod image;
+mod payloads;
 mod tasks;
 mod yolo;
-mod payloads;
-mod image;
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -45,8 +45,17 @@ fn main() {
         .start_all_tasks()
         .expect("Failed to start tasks");
 
+    println!("Running... Press Ctrl+C to stop.");
+
     // Run the application
     if let Err(e) = application.run() {
         error!("Error during iteration: {}", e.to_string());
     }
+
+    println!("Stopping tasks and flushing logs...");
+
+    // Stop all tasks to ensure proper cleanup and log flushing
+    application.stop_all_tasks().expect("Failed to stop tasks");
+
+    println!("Application stopped successfully.");
 }
